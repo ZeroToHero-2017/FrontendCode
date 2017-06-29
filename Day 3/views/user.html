@@ -1,0 +1,45 @@
+<div ng-controller="UserController">
+        <p>First Name: <input type="text" ng-model="user.firstName"></p>
+        <p>Last Name: <input type="text" ng-model="user.lastName"></p>
+        <p>CNP: <input type="number" ng-model="user.cnp"></p>
+        <p>Age: <input type="number" ng-model="user.age"></p>
+        <p>
+            <a class="btn btn-primary btn-lg" role="button" ng-click="backk()">Back</a>
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg" role="button" ng-click="resett()">Reset</a>
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg" role="button" ng-click="savee()">Save</a>
+        </p>
+        <div>
+            <table class="table table-striped" ng-show="descriptionShow">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>CNP</th>
+                    <th>Age</th>
+                </tr>
+                <tr ng-repeat="user in userList">
+                    <td class="text-center">
+                        {{user.firstName}}
+                    </td>
+                    <td class="text-center">
+                        {{user.lastName}}
+                    </td>
+                    <td class="text-center">
+                        {{user.cnp}}
+                    </td>
+                    <td class="text-center">
+                        {{user.age}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>
+            <a class="btn btn-primary btn-lg" role="button" ng-click="showhide()">Show/Hide</a>
+        </p>
+
+
+
+</div>
