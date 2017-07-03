@@ -1,5 +1,5 @@
-hrApp.controller('EmployeeAddController', ['$scope', '$http', '$location', '$commonResourcesFactoryBackup',
-    function($scope, $http, $location, $commonResourcesFactoryBackup) {
+hrApp.controller('EmployeeAddController', ['$scope', '$http', '$location', 'CommonResourcesFactory', 'ManagerService',
+    function($scope, $http, $location, CommonResourcesFactory, ManagerService) {
         $scope.employee = {};
         $scope.requiredErrorMessage = "Please fill out this form!";
         $scope.patternDateNotRespectedMessage = "The date format should be yyyy-mm-dd";
@@ -7,6 +7,17 @@ hrApp.controller('EmployeeAddController', ['$scope', '$http', '$location', '$com
 
         //TODO #HR1
 
+        ManagerService.findDepartments().then(function(resolve){
+            $scope.departments = resolve.data;
+        });
+
+        ManagerService.findManagers().then(function(resolve){
+            $scope.managers = resolve.data;
+        });
+
+        ManagerService.findJobs().then(function(resolve){
+            $scope.jobs = resolve.data;
+        });
         /**
          * Reset form
          */
@@ -18,8 +29,8 @@ hrApp.controller('EmployeeAddController', ['$scope', '$http', '$location', '$com
          * Persist an employee
          * @param addEmployee - employee to be persisted
          */
-        $scope.create = function (addEmployee) {
-            $http({url: $commonResourcesFactoryBackup.addEmployeeUrl, method: 'POST', data: addEmployee})
+        $scope.create = function () {
+            $http({url: CommonResourcesFactory.addEmployeeUrl, method: 'POST', data: $scope.employee})
                 .success(function (data) {
                     $scope.employee = data;
                     $location.url('/employeeView/' + $scope.employee.employeeId);

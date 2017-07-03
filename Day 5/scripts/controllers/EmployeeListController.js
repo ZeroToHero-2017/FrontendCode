@@ -1,5 +1,5 @@
-hrApp.controller('EmployeeListController', ['$scope', '$http', '$location', 'CommonResourcesFactoryBackup',
-    function ($scope, $http, $location, CommonResourcesFactoryBackup) {
+hrApp.controller('EmployeeListController', ['$scope', '$http', '$location', 'CommonResourcesFactory', 'EmployeeService',
+    function ($scope, $http, $location, CommonResourcesFactory, EmployeeService) {
 
         $scope.employees = [];
 
@@ -47,7 +47,7 @@ hrApp.controller('EmployeeListController', ['$scope', '$http', '$location', 'Com
          ];
          */
 
-        $http({url: CommonResourcesFactoryBackup.findAllEmployeesUrl, method: 'GET'})
+        $http({url: CommonResourcesFactory.findAllEmployeesUrl, method: 'GET'})
             .success(function (data, status, headers, config) {
                 $scope.employees = data;
             });
@@ -58,5 +58,10 @@ hrApp.controller('EmployeeListController', ['$scope', '$http', '$location', 'Com
 
         $scope.editEmployee = function(employeeId) {
             $location.url('/employeeEdit/' + employeeId);
+        };
+
+        $scope.deleteEmployee = function(employee) {
+            EmployeeService.deleteById(employee);
+            $location.url('/employeeList/');
         };
     }]);

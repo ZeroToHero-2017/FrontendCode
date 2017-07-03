@@ -1,5 +1,5 @@
 hrApp.controller('EmployeeViewController', ['$scope', '$http', '$routeParams', '$location', 'EmployeeService',
-    function ($scope, $http, $routeParams, $location, EmployeeService) {
+    function ($scope, $http, $routeParams, $location, EmployeeService) {  "use strict";
 
         /*
         $scope.employee = {
@@ -27,5 +27,5 @@ hrApp.controller('EmployeeViewController', ['$scope', '$http', '$routeParams', '
 
         $scope.back = function () {
             $location.url('/employeeList');
-        }
+        };
     }]);

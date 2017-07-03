@@ -1,5 +1,5 @@
-hrApp.controller('EmployeeEditController', ['$scope', '$http', '$routeParams', '$location', 'commonResourcesFactoryBackup',
-    function ($scope, $http, $routeParams, $location, commonResourcesFactoryBackup) {
+hrApp.controller('EmployeeEditController', ['$scope', '$http', '$routeParams', '$location', 'CommonResourcesFactory', 'ManagerService', 'EmployeeService',
+    function ($scope, $http, $routeParams, $location, CommonResourcesFactory, ManagerService, EmployeeService) { "use strict";
         $scope.requiredErrorMessage = "Please fill out this form!";
         $scope.patternDateNotRespectedMessage = "The date format should be yyyy-mm-dd";
         $scope.patternCommisionNotRespectedMessage = "Commission should be in the format 0.XX";
@@ -13,12 +13,30 @@ hrApp.controller('EmployeeEditController', ['$scope', '$http', '$routeParams', '
             $scope.employee = {};
         };
 
+        ManagerService.findDepartments().then(function(res) {
+            $scope.departments = res.data;
+        });
+        ManagerService.findManagers().then(function(res){
+            $scope.managers = res.data;
+        });
+        ManagerService.findJobs().then(function(res){
+            $scope.jobs = res.data;
+        });
+
+        EmployeeService.findById($routeParams.employeeId)
+            .then(function (res) {
+                $scope.employee = res.data;
+            }, function (err) {
+                console.log("Error at employees/findOne: " + err);
+            });
+
         /**
          * Persist an employee
          * @param addEmployee - employee to be persisted
          */
+
         $scope.create = function (addEmployee) {
-            $http({url: commonResourcesFactoryBackup.editEmployeeUrl, method: 'PUT', data: addEmployee})
+            $http({url: CommonResourcesFactory.editEmployeeUrl, method: 'PUT', data: addEmployee})
                 .success(function (data) {
                     $scope.employee = data;
                     $location.url('/employeeView/' + $scope.employee.employeeId);
